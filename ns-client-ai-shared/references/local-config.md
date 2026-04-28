@@ -55,9 +55,11 @@ sh ./scripts/ai_api_request.sh status
 
 Run these examples from the installed `ns-client-ai-shared` skill directory, or adapt the helper path to that directory.
 
-## Persist From Environment
+## Persist Credentials To Local Config
 
-Ask the user to set environment variables first, then persist without putting secrets in command history.
+If the user provides `base_url`, `access_key_id`, and `secret` directly in the conversation and approves local reuse, persist them into local JSON config as the default reuse path.
+
+Environment variables can still be used as a source when they are already present, but they are not required for normal customer onboarding.
 
 Windows PowerShell user config example:
 
