@@ -378,7 +378,7 @@ if [ "$DRY_RUN" -eq 1 ]; then
   for skill in $SKILL_NAMES; do
     log "  - $skill"
   done
-  log "Detected tools  ${ARROW_MARK} $TARGET_COUNT"
+  log "Detected AI tools  ${ARROW_MARK} $TARGET_COUNT"
   section "${BLUE}Detected Targets${RESET}"
   printf '%s\n' "$DETECTED_TARGETS" | while IFS='|' read -r key display detect_dir target_dir support_level; do
     if [ "$support_level" = "verified" ]; then
@@ -392,7 +392,7 @@ if [ "$DRY_RUN" -eq 1 ]; then
   done
 else
   log "Skills in pack  ${ARROW_MARK} $SKILL_COUNT"
-  log "Detected tools  ${ARROW_MARK} $TARGET_COUNT"
+  log "Detected AI tools  ${ARROW_MARK} $TARGET_COUNT"
   section "${BLUE}Installing Into${RESET}"
   printf '%s\n' "$DETECTED_TARGETS" | while IFS='|' read -r key display detect_dir target_dir support_level; do
     if [ "$support_level" = "verified" ]; then
