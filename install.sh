@@ -24,6 +24,27 @@ windsurf|Windsurf|$HOME/.codeium/windsurf|$HOME/.codeium/windsurf/skills|best-ef
 EOF
 )
 
+supports_color() {
+  [ -t 1 ] && [ "${TERM:-}" != "dumb" ] && [ -z "${NO_COLOR:-}" ]
+}
+
+if supports_color; then
+  ESC="$(printf '\033')"
+  RESET="${ESC}[0m"
+  BOLD="${ESC}[1m"
+  BLUE="${ESC}[34m"
+  GREEN="${ESC}[32m"
+  YELLOW="${ESC}[33m"
+  CYAN="${ESC}[36m"
+else
+  RESET=""
+  BOLD=""
+  BLUE=""
+  GREEN=""
+  YELLOW=""
+  CYAN=""
+fi
+
 detect_platform() {
   kernel="$(uname -s 2>/dev/null || printf 'unknown')"
   case "$kernel" in
@@ -45,12 +66,24 @@ log() {
   printf '%s\n' "$*"
 }
 
+section() {
+  printf '\n%s%s%s\n' "$BOLD" "$1" "$RESET"
+}
+
+info() {
+  printf '%s%s%s\n' "$CYAN" "$1" "$RESET"
+}
+
+success() {
+  printf '%s%s%s\n' "$GREEN" "$1" "$RESET"
+}
+
 warn() {
-  printf 'WARNING: %s\n' "$*" >&2
+  printf '%sWARNING:%s %s\n' "$YELLOW" "$RESET" "$*" >&2
 }
 
 die() {
-  printf 'ERROR: %s\n' "$*" >&2
+  printf '%sERROR:%s %s\n' "$YELLOW" "$RESET" "$*" >&2
   exit 1
 }
 
@@ -237,10 +270,12 @@ install_skill_to_target() {
   skills="$7"
 
   if [ "$DRY_RUN" -eq 1 ]; then
-    log "DRY RUN: would install to $tool_name [$support_level] -> $target_dir"
+    info "DRY RUN  $tool_name [$support_level]"
+    log "         target: $target_dir"
   else
     mkdir -p "$target_dir"
-    log "Installing to $tool_name [$support_level] -> $target_dir"
+    info "INSTALL  $tool_name [$support_level]"
+    log "         target: $target_dir"
   fi
 
   for skill in $skills; do
@@ -249,11 +284,12 @@ install_skill_to_target() {
     backup_if_exists "$target_skill" "$tool_key" "$timestamp"
 
     if [ "$DRY_RUN" -eq 1 ]; then
-      log "DRY RUN: copy $skill -> $target_dir"
+      log "         - copy $skill"
       continue
     fi
 
     cp -R "$source_skill" "$target_dir/"
+    log "         - installed $skill"
   done
 }
 
@@ -319,31 +355,47 @@ DETECTED_TARGETS=$(detect_targets)
 
 [ -n "$DETECTED_TARGETS" ] || die "no supported AI tools were detected in this account. Install a supported tool first or rerun with a different account."
 
-log "NS Client agent skills source: $SOURCE_ROOT"
-log "Repository: ${REPO_OWNER}/${REPO_NAME}"
-log "Ref: $REPO_REF"
-log "Discovered skills: $SKILL_NAMES"
-log ""
-log "Detected targets:"
-printf '%s\n' "$DETECTED_TARGETS" | while IFS='|' read -r key display detect_dir target_dir support_level; do
-  log "- $display [$support_level]"
-  log "  detect: $detect_dir"
-  log "  target: $target_dir"
+section "${BLUE}NS Client Agent Skills Installer${RESET}"
+log "Source repository : ${REPO_OWNER}/${REPO_NAME}"
+log "Release ref       : $REPO_REF"
+log "Skill source      : $SOURCE_ROOT"
+
+SKILL_COUNT=0
+for skill in $SKILL_NAMES; do
+  SKILL_COUNT=$((SKILL_COUNT + 1))
 done
-log ""
+
+section "${BLUE}Discovered Skills${RESET}"
+log "Count: $SKILL_COUNT"
+for skill in $SKILL_NAMES; do
+  log "- $skill"
+done
+
+section "${BLUE}Detected Targets${RESET}"
+printf '%s\n' "$DETECTED_TARGETS" | while IFS='|' read -r key display detect_dir target_dir support_level; do
+  if [ "$support_level" = "verified" ]; then
+    label="${GREEN}verified${RESET}"
+  else
+    label="${YELLOW}best-effort${RESET}"
+  fi
+  log "- $display [$label]"
+  log "    detect: $detect_dir"
+  log "    target: $target_dir"
+done
 
 printf '%s\n' "$DETECTED_TARGETS" | while IFS='|' read -r key display detect_dir target_dir support_level; do
   install_skill_to_target "$SOURCE_ROOT" "$key" "$display" "$target_dir" "$support_level" "$TIMESTAMP" "$SKILL_NAMES"
 done
 
-log ""
+section "${BLUE}Result${RESET}"
 if [ "$DRY_RUN" -eq 1 ]; then
-  log "Dry run complete. No files were changed."
+  success "Dry run complete. No files were changed."
 else
-  log "Installation complete."
-  log "Next steps:"
+  success "Installation complete."
+  section "${BLUE}Next Steps${RESET}"
   log "1. Open your preferred AI tool."
   log "2. Make a normal NS Client request in natural language."
-  log "3. If local credentials are not configured yet, let the AI tool prompt you for Base URL, access_key_id, and secret."
+  log "3. If local credentials are not configured yet,"
+  log "   let the AI tool prompt you for Base URL, access_key_id, and secret."
   log "4. Approve local credential saving if you want future reuse."
 fi
