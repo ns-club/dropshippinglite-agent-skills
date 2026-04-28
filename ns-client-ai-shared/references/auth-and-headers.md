@@ -23,13 +23,13 @@ Prefer the installed shared helper because it reads environment variables and lo
 Windows PowerShell:
 
 ```powershell
-Use the installed NS Client shared helper to request /api/ai/v1/dashboard.
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\ai_api_request.ps1 request /api/ai/v1/dashboard
 ```
 
 macOS/Linux sh:
 
 ```sh
-Use the installed NS Client shared helper to request /api/ai/v1/dashboard.
+sh ./scripts/ai_api_request.sh request /api/ai/v1/dashboard
 ```
 
 If the helper is unavailable, a minimal probe is:

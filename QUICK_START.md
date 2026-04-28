@@ -16,22 +16,21 @@ You will use this repository as the skill pack.
 
 For the current one-command installer:
 
-- macOS or Linux
-- `sh`
-- `curl` or `wget`
-- `unzip`
+- macOS/Linux:
+  - `sh`
+  - `curl` or `wget`
+  - `unzip`
+- Windows:
+  - Windows PowerShell or PowerShell 7
 
 You do not need:
 
 - `git`
 - `npm`
 
-Windows note:
-
-- This repository already includes `install.ps1` as the official Windows installer entrypoint.
-- Windows installation logic is intentionally deferred to a later phase.
-
 ## 3. Install The Skills
+
+Choose the command for your operating system and paste it into a terminal.
 
 macOS/Linux:
 
@@ -44,7 +43,17 @@ curl -fsSL https://raw.githubusercontent.com/ns-club/dropshippinglite-agent-skil
 Windows:
 
 ```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -Command "[Net.ServicePointManager]::SecurityProtocol=[Net.SecurityProtocolType]::Tls12; & ([scriptblock]::Create((Invoke-RestMethod 'https://raw.githubusercontent.com/ns-club/dropshippinglite-agent-skills/main/install.ps1')))"
+```
+
+If you already downloaded or extracted the package on Windows, you can run either entrypoint:
+
+```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File .\install.ps1
+```
+
+```cmd
+install.cmd
 ```
 
 The installer will:
@@ -52,6 +61,8 @@ The installer will:
 - detect supported AI tools on your machine
 - install the NS Client skills into all detected tools
 - keep other non-NS Client skills untouched
+
+After installation, restart your AI tool so it reloads the newly installed skills.
 
 ## 4. Supported Tools
 
@@ -103,6 +114,8 @@ If local credentials do not exist yet:
 
 Typical local config locations:
 
+- Windows:
+  - `%USERPROFILE%\.ns-client\ai-api.json`
 - macOS/Linux:
   - `~/.config/ns-client/ai-api.json`
 - repo-local optional config:

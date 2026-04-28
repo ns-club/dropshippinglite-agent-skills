@@ -44,14 +44,16 @@ Also accept uppercase environment-style keys in JSON for compatibility:
 Windows PowerShell status example:
 
 ```powershell
-Use the installed NS Client shared helper to run the status command.
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\ai_api_request.ps1 status
 ```
 
 macOS/Linux status example:
 
 ```sh
-Use the installed NS Client shared helper to run the status command.
+sh ./scripts/ai_api_request.sh status
 ```
+
+Run these examples from the installed `ns-client-ai-shared` skill directory, or adapt the helper path to that directory.
 
 ## Persist From Environment
 
@@ -60,13 +62,13 @@ Ask the user to set environment variables first, then persist without putting se
 Windows PowerShell user config example:
 
 ```powershell
-Use the installed NS Client shared helper to persist credentials from the current environment into user config.
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\ai_api_request.ps1 set-from-env --scope user
 ```
 
 macOS/Linux user config example:
 
 ```sh
-Use the installed NS Client shared helper to persist credentials from the current environment into user config.
+sh ./scripts/ai_api_request.sh set-from-env --scope user
 ```
 
 For repo-only storage, replace `--scope user` with `--scope repo`.
@@ -80,13 +82,13 @@ Use the helper to avoid exposing the Authorization header.
 Windows PowerShell example:
 
 ```powershell
-Use the installed NS Client shared helper to request /api/ai/v1/orders with page and per_page parameters.
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\ai_api_request.ps1 request /api/ai/v1/orders --param page=1 --param per_page=50
 ```
 
 macOS/Linux example:
 
 ```sh
-Use the installed NS Client shared helper to request /api/ai/v1/orders with page and per_page parameters.
+sh ./scripts/ai_api_request.sh request /api/ai/v1/orders --param page=1 --param per_page=50
 ```
 
 The helper prints only the API response body and errors, not credentials.

@@ -333,6 +333,17 @@ SCRIPT_DIR="$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)"
 case "$PLATFORM" in
   macos|linux) ;;
   windows)
+    set -- -Ref "$REPO_REF"
+    if [ "$DRY_RUN" -eq 1 ]; then
+      set -- "$@" -DryRun
+    fi
+    for selected in $SELECTED_TOOLS; do
+      set -- "$@" -Tool "$selected"
+    done
+    if [ -n "$LOCAL_SOURCE_DIR" ]; then
+      set -- "$@" -SourceDir "$LOCAL_SOURCE_DIR"
+    fi
+
     if has_cmd powershell; then
       exec powershell -NoProfile -ExecutionPolicy Bypass -File "$SCRIPT_DIR/install.ps1" "$@"
     fi

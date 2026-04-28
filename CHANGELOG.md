@@ -9,5 +9,6 @@
   - products
   - orders
   - billing logs
-- Added macOS/Linux one-command installer
+- Added cross-platform installers for macOS, Linux, and Windows
+- Added Windows `install.ps1` and `install.cmd` entrypoints
 - Added local config helper scripts for credential reuse

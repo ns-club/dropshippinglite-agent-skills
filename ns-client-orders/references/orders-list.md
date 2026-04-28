@@ -11,11 +11,11 @@ GET /api/ai/v1/orders
 Prefer the installed shared helper so credentials can come from environment variables or local config files without printing the secret:
 
 ```powershell
-Use the installed NS Client shared helper to request /api/ai/v1/orders with `page=1` and `per_page=50`.
+powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\ai_api_request.ps1 request /api/ai/v1/orders --param page=1 --param per_page=50
 ```
 
 ```sh
-Use the installed NS Client shared helper to request /api/ai/v1/orders with `page=1` and `per_page=50`.
+sh ./scripts/ai_api_request.sh request /api/ai/v1/orders --param page=1 --param per_page=50
 ```
 
 ## Supported Query Parameters
