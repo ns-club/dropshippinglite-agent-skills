@@ -45,6 +45,10 @@ else
   CYAN=""
 fi
 
+CHECK_MARK="✓"
+SOFT_MARK="○"
+ARROW_MARK="→"
+
 detect_platform() {
   kernel="$(uname -s 2>/dev/null || printf 'unknown')"
   case "$kernel" in
@@ -274,8 +278,11 @@ install_skill_to_target() {
     log "         target: $target_dir"
   else
     mkdir -p "$target_dir"
-    info "INSTALL  $tool_name [$support_level]"
-    log "         target: $target_dir"
+    if [ "$support_level" = "verified" ]; then
+      info "$CHECK_MARK Installed into $tool_name"
+    else
+      info "$SOFT_MARK Installed into $tool_name (best effort)"
+    fi
   fi
 
   for skill in $skills; do
@@ -289,7 +296,6 @@ install_skill_to_target() {
     fi
 
     cp -R "$source_skill" "$target_dir/"
-    log "         - installed $skill"
   done
 }
 
@@ -355,33 +361,47 @@ DETECTED_TARGETS=$(detect_targets)
 
 [ -n "$DETECTED_TARGETS" ] || die "no supported AI tools were detected in this account. Install a supported tool first or rerun with a different account."
 
-section "${BLUE}NS Client Agent Skills Installer${RESET}"
-log "Source repository : ${REPO_OWNER}/${REPO_NAME}"
-log "Release ref       : $REPO_REF"
-log "Skill source      : $SOURCE_ROOT"
-
 SKILL_COUNT=0
 for skill in $SKILL_NAMES; do
   SKILL_COUNT=$((SKILL_COUNT + 1))
 done
 
-section "${BLUE}Discovered Skills${RESET}"
-log "Count: $SKILL_COUNT"
-for skill in $SKILL_NAMES; do
-  log "- $skill"
-done
+TARGET_COUNT=$(printf '%s\n' "$DETECTED_TARGETS" | awk 'NF { count += 1 } END { print count + 0 }')
 
-section "${BLUE}Detected Targets${RESET}"
-printf '%s\n' "$DETECTED_TARGETS" | while IFS='|' read -r key display detect_dir target_dir support_level; do
-  if [ "$support_level" = "verified" ]; then
-    label="${GREEN}verified${RESET}"
-  else
-    label="${YELLOW}best-effort${RESET}"
-  fi
-  log "- $display [$label]"
-  log "    detect: $detect_dir"
-  log "    target: $target_dir"
-done
+section "${BLUE}NS Client Agent Skills Installer${RESET}"
+if [ "$DRY_RUN" -eq 1 ]; then
+  log "Mode            ${ARROW_MARK} dry run"
+  log "Repository      ${ARROW_MARK} ${REPO_OWNER}/${REPO_NAME}"
+  log "Release ref     ${ARROW_MARK} $REPO_REF"
+  log "Skill source    ${ARROW_MARK} $SOURCE_ROOT"
+  log "Skills found    ${ARROW_MARK} $SKILL_COUNT"
+  for skill in $SKILL_NAMES; do
+    log "  - $skill"
+  done
+  log "Detected tools  ${ARROW_MARK} $TARGET_COUNT"
+  section "${BLUE}Detected Targets${RESET}"
+  printf '%s\n' "$DETECTED_TARGETS" | while IFS='|' read -r key display detect_dir target_dir support_level; do
+    if [ "$support_level" = "verified" ]; then
+      label="${GREEN}verified${RESET}"
+    else
+      label="${YELLOW}best-effort${RESET}"
+    fi
+    log "- $display [$label]"
+    log "    detect: $detect_dir"
+    log "    target: $target_dir"
+  done
+else
+  log "Skills in pack  ${ARROW_MARK} $SKILL_COUNT"
+  log "Detected tools  ${ARROW_MARK} $TARGET_COUNT"
+  section "${BLUE}Installing Into${RESET}"
+  printf '%s\n' "$DETECTED_TARGETS" | while IFS='|' read -r key display detect_dir target_dir support_level; do
+    if [ "$support_level" = "verified" ]; then
+      log "$CHECK_MARK $display"
+    else
+      log "$SOFT_MARK $display (best effort)"
+    fi
+  done
+fi
 
 printf '%s\n' "$DETECTED_TARGETS" | while IFS='|' read -r key display detect_dir target_dir support_level; do
   install_skill_to_target "$SOURCE_ROOT" "$key" "$display" "$target_dir" "$support_level" "$TIMESTAMP" "$SKILL_NAMES"
@@ -394,8 +414,8 @@ else
   success "Installation complete."
   section "${BLUE}Next Steps${RESET}"
   log "1. Open your preferred AI tool."
-  log "2. Make a normal NS Client request in natural language."
-  log "3. If local credentials are not configured yet,"
+  log "2. Ask a normal NS Client business question in natural language."
+  log "3. If credentials are not configured yet,"
   log "   let the AI tool prompt you for Base URL, access_key_id, and secret."
   log "4. Approve local credential saving if you want future reuse."
 fi
