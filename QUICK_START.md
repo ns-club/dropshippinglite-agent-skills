@@ -153,6 +153,12 @@ Get the first 50 recent orders for my account and summarize the key cost fields 
 Get the first 50 billing log rows for my account and summarize the payment methods and wallet types in English.
 ```
 
+### Product SKU prices
+
+```text
+Find a product by title first if needed. Then show me the available SKU price filters for that product and get the SKU prices for quantity 1 in the US.
+```
+
 ## 8. Troubleshooting
 
 ### 401 Unauthorized

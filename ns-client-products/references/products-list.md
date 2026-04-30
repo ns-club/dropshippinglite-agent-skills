@@ -56,3 +56,4 @@ GET /api/ai/v1/products
 - `start_date` and `end_date` filter `shopify_created_at`.
 - `erp_start_date` and `erp_end_date` filter the local record `created_at`.
 - `bind_consumables` in the response is an array of the bound consumable variants exactly as shown in the portal.
+- The current AI API only supports product data from March 1, 2026 onward.
