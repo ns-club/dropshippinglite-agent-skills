@@ -25,7 +25,7 @@ This repository is designed for customers who use local AI coding tools and want
 
 See [QUICK_START.md](./QUICK_START.md).
 
-Recommended customer path: paste the one-command installer for your operating system, restart the AI tool, then ask your first NS Client business question.
+Recommended customer path: paste the one-command installer for your operating system, restart the AI tool, generate your credential from the NS Client Account page, then ask your first NS Client business question.
 
 ## One-Command Install
 
