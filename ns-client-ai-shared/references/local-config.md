@@ -33,13 +33,14 @@ Also accept uppercase environment-style keys in JSON for compatibility:
 - `NS_CLIENT_AI_ACCESS_KEY_ID`
 - `NS_CLIENT_AI_SECRET`
 
-## Safe Workflow
+## Required Workflow
 
-1. Run the installed shared helper for the current shell.
-2. If all credentials are resolved, continue with the business endpoint.
-3. If any credential is missing, ask the user to provide the missing values or set the environment variables locally.
-4. If the user wants future reuse, persist credentials to config. Prefer user config by default; use repo-local config only when the user asks for repo-specific credentials.
-5. Never print the `secret` or dump the config file contents.
+1. Detect the current operating system.
+2. Run the installed shared helper for that operating system.
+3. Use the helper to check credential status before any business request.
+4. If all credentials are resolved, continue with the validation probe and then the business endpoint.
+5. If any credential is missing, ask the user for the missing values and persist them for local reuse. Prefer user config by default; use repo-local config only when the user asks for repo-specific credentials.
+6. Never print the `secret` or dump the config file contents.
 
 Windows PowerShell status example:
 
@@ -53,7 +54,7 @@ macOS/Linux status example:
 sh ./scripts/ai_api_request.sh status
 ```
 
-Run these examples from the installed `ns-client-ai-shared` skill directory, or adapt the helper path to that directory.
+Run these examples from the installed `ns-client-ai-shared` skill directory, or adapt the helper path to that directory. When the helper is available, use it as the default path instead of building a separate request flow.
 
 ## Persist Credentials To Local Config
 
@@ -79,7 +80,7 @@ The repo-local file `.ns-client-ai.local.json` must remain gitignored.
 
 ## API Request Helper
 
-Use the helper to avoid exposing the Authorization header.
+Use the helper as the standard request path so credentials stay out of shell output and the request flow stays consistent across environments.
 
 Windows PowerShell example:
 
@@ -93,4 +94,4 @@ macOS/Linux example:
 sh ./scripts/ai_api_request.sh request /api/ai/v1/orders --param page=1 --param per_page=50
 ```
 
-The helper prints only the API response body and errors, not credentials.
+The helper prints only the API response body and errors, not credentials. Use other request methods only when the installed helper is unavailable.

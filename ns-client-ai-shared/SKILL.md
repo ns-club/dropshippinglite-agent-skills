@@ -35,7 +35,9 @@ metadata:
   - `NS_CLIENT_AI_ACCESS_KEY_ID`
   - `NS_CLIENT_AI_SECRET`
 - Prefer configured local environment variables over pasting credential values into prompts.
-- Prefer the installed shared helper to inspect whether credentials are already resolved, instead of printing live credential values.
+- The installed shared helper is the standard execution path for this skill pack.
+- When the helper is available, use it for credential status checks, credential persistence, validation probes, and all `/api/ai/v1/*` requests.
+- Do not replace the helper with an ad hoc request flow when the helper is available.
 
 ## Authentication
 
@@ -52,7 +54,7 @@ Read credential discovery and persistence rules before asking for credentials: `
 
 - Before the first business request in a session, validate connectivity and credentials with:
   - `GET /api/ai/v1/dashboard`
-- Prefer the installed shared helper for the validation probe so the secret is not printed into shell output.
+- Use the installed shared helper for the validation probe so the secret is not printed into shell output.
 - If that returns `401` with `code=unauthorized`, stop and ask for valid credentials.
 
 ## Read-Only Boundary
@@ -104,6 +106,7 @@ Read: `references/errors-and-retries.md`
 - Do not expose credentials in logs, notes, or examples.
 - If shell commands are shown, prefer environment-variable references such as `${NS_CLIENT_AI_SECRET}` instead of literal secrets.
 - Do not print local config file contents when they contain `secret`.
+- Do not require or assume any customer-specific runtime or package manager for normal setup. The standard path is the installed helper for the current operating system.
 
 ## Domain Routing
 
@@ -122,4 +125,5 @@ Read: `references/errors-and-retries.md`
 
 ## Troubleshooting
 
+- Use raw HTTP requests only as a last-resort fallback when the installed helper is unavailable.
 - For integration issues, contact your assigned business representative.
