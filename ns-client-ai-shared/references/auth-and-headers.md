@@ -18,7 +18,7 @@ Authorization: Bearer <access_key_id>.<secret>
 
 ## Validation Example
 
-Prefer the installed shared helper because it reads environment variables and local config files without printing the secret. In many AI hosts, the tool can resolve the helper from the installed skill automatically.
+Use the installed shared helper as the standard validation path because it reads environment variables and local config files without printing the secret. In many AI hosts, the tool can resolve the helper from the installed skill automatically.
 
 Windows PowerShell:
 
@@ -44,7 +44,8 @@ curl -sS \
 
 - Prefer local environment variables over explicit credential values in prompts.
 - Prefer local config files over asking the user when environment variables are missing.
-- If your AI host can resolve installed skill files automatically, prefer that path instead of manually constructing helper file paths.
+- If your AI host can resolve installed skill files automatically, use that path instead of manually constructing a separate request flow.
+- When the installed helper is available, use it for credential checks, validation, and AI API requests.
 - Do not send web JWTs to `/api/ai/v1/*`.
 - Do not call `/api/*` browser routes from these skills.
 - Do not echo the secret back to the user after it is supplied.

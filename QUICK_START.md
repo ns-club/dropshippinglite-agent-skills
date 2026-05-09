@@ -7,8 +7,8 @@ This guide explains how to start using the NS Client read-only AI API with local
 NS Client support will provide:
 
 - Your API base URL
-- Your `access_key_id`
-- Your `secret`
+
+You will generate your own `access_key_id` and `secret` from the NS Client Account page after the skills are installed.
 
 You will use this repository as the skill pack.
 
@@ -86,15 +86,17 @@ After installation, restart your AI tool so it reloads the newly installed skill
 
 ## 5. First Use
 
-After installation, open your AI tool and use a prompt like this:
+After installation, open the NS Client Account page, generate your AI credential there, and then use a prompt like this:
 
 ```text
 I already installed the NS Client skills. Please use them if relevant.
 
+I already generated my NS Client AI credential from the NS Client Account page.
+
 If local NS Client credentials are not configured yet, ask me for:
 - Base URL
-- access_key_id
-- secret
+- access_key_id from my NS Client Account page
+- secret from my NS Client Account page
 
 After I provide them, save them locally for reuse and do not print the secret in your final response.
 
@@ -111,6 +113,12 @@ If local credentials do not exist yet:
   - `secret`
 - after you approve it, the AI tool can save them to local configuration
 - future requests should reuse that local configuration
+
+Credential notes:
+
+- `secret` is shown only once when you generate it or refresh it
+- save it immediately in a secure place
+- refreshing the secret immediately invalidates the previous secret
 
 Typical local config locations:
 
