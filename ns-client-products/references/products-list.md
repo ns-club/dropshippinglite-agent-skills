@@ -57,3 +57,4 @@ GET /api/ai/v1/products
 - `erp_start_date` and `erp_end_date` filter the local record `created_at`.
 - `bind_consumables` in the response is an array of the bound consumable variants exactly as shown in the portal.
 - The current AI API only supports product data from March 1, 2026 onward.
+- Some accounts have an earlier data floor enabled for this product list endpoint only; if your account is one of them, older products may be returned. All other endpoints still follow the March 1, 2026 floor. Contact your assigned business representative to confirm your account's setting.
