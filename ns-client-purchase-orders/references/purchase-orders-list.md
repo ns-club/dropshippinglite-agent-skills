@@ -21,6 +21,7 @@ sh ./scripts/ai_api_request.sh request /api/ai/v1/purchase_orders --param page=1
 ## Supported Query Parameters
 
 - `po_number` (exact match)
+- `sku` (exact match on the internal SKU line SKU, e.g. `NP-2190930373327_07234`; only purchase orders whose stock-scope lines contain this SKU are returned)
 - `status`
 - `warehouse_status`
 - `payment_status`
@@ -74,4 +75,5 @@ sh ./scripts/ai_api_request.sh request /api/ai/v1/purchase_orders --param page=1
 - Purchasing may merge several clients' goods into one purchase order. This endpoint therefore returns **only the SKU lines that belong to your own stock products**, and `total_purchase_quantity` / `total_received_quantity` are sums over those lines only.
 - Header-level `status` / `warehouse_status` / `payment_status` describe the **whole purchase order** (possibly including other clients' goods), so treat them as reference. Authoritative quantities are the per-SKU lines and their sums.
 - Cost/price fields are intentionally not exposed; billing reconciliation must use the `ns-client-invoices` skill.
+- To check arrival status for one product, pass its internal SKU via `sku` (use `ns-client-sku-mappings` first if you only have the Shopify SKU). SKUs outside your stock product list return no results.
 - Timestamps follow your account timezone setting in the portal.
