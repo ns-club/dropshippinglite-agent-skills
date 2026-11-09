@@ -46,5 +46,6 @@ sh ./scripts/ai_api_request.sh request /api/ai/v1/sku_mappings --param page=1 --
 ## Notes
 
 - This endpoint is NOT restricted by the 2026-03-01 preview cutoff: mappings for older products are returned too. All rows are scoped to your own store products.
+- System/sample products (titles starting with `样品-`) are excluded, consistent with the products endpoint.
 - A typical inventory-planning flow: pull the full mapping table once, cache it, then use `np_code` / `internal_sku` values when querying other endpoints.
 - Rows with `linked=false` have no internal product binding yet; contact your business representative if those need to be created.
