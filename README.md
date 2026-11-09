@@ -11,6 +11,8 @@ This repository is designed for customers who use local AI coding tools and want
 - `ns-client-invoices`
 - `ns-client-products`
 - `ns-client-orders`
+- `ns-client-sku-mappings`
+- `ns-client-purchase-orders`
 - `ns-client-billing-logs`
 
 ## What This Repository Provides

@@ -79,6 +79,7 @@ sh ./scripts/ai_api_request.sh request /api/ai/v1/orders --param page=1 --param 
 ## Response Highlights
 
 - `source_order_name`
+- `source_order_id` (Shopify internal order ID)
 - `order_number`
 - `invoice_number`
 - `title`
@@ -96,4 +97,6 @@ sh ./scripts/ai_api_request.sh request /api/ai/v1/orders --param page=1 --param 
 ## Notes
 
 - The response is intended to match what the customer sees in the order list page.
+- `source_order_id` is the Shopify internal order ID, useful for matching rows back to the Shopify admin or external inventory planning tools.
+- Cost fields are quote-reference figures and must not be summed as billing amounts; for billing reconciliation always use the `ns-client-invoices` skill (`total_cost`).
 - If the user asks only for a quick unpaid invoice or balance summary, use `ns-client-dashboard` instead.

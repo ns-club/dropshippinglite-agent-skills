@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.2.0
+
+- Added `ns-client-sku-mappings` skill: Shopify SKU to internal NP-code lookup (`GET /api/ai/v1/sku_mappings`)
+- Added `ns-client-purchase-orders` skill: purchase order status and received quantities, scoped to client stock product lines (`GET /api/ai/v1/purchase_orders`)
+- `ns-client-orders`: response now includes `source_order_id` (Shopify internal order ID); documented that cost fields are quote-reference and must not be summed as billing amounts
+- `ns-client-products`: documented that some accounts may have an earlier data floor on the product list endpoint only; other endpoints keep the March 1, 2026 floor
+- `ns-client-purchase-orders`: added `sku` filter (exact match on internal SKU lines) for per-SKU arrival lookups
+
 ## 0.1.0
 
 - Initial public skill pack
