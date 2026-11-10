@@ -24,7 +24,7 @@ Returns one invoice with its billing breakdown: invoice-level totals plus one ro
   "paid_at": "2026-03-05T10:20:00.000Z",
   "exchange_rate": "6.6",
   "item_cost": "40.44",
-  "shipping_cost": "2479.70",
+  "shipping_cost": "2479.69",
   "total_cost": "2520.13",
   "marketing_discount_amount": "0.00",
   "package_count": 223,
@@ -47,6 +47,7 @@ Returns one invoice with its billing breakdown: invoice-level totals plus one ro
 ## Field Notes
 
 - Invoice-level `item_cost`, `shipping_cost`, `total_cost` are in USD, exactly as shown in the customer portal. Use `total_cost` as the billed invoice total.
+- Rounding note: amounts are displayed with 2 decimals. Summing the displayed package values can differ from the displayed `total_cost` by up to one cent, because the billed total is computed from unrounded values. Treat `total_cost` as the authoritative billed amount and cent-level differences as rounding effects.
 - `marketing_discount_amount` is the marketing discount applied to the invoice, reported separately from `total_cost`.
 - Package amounts (`packages[].item_cost`, `packages[].shipping_cost`, `packages[].total_cost`) are returned in USD, converted from RMB at the invoice's `exchange_rate`.
 - `store_order_names` lists the store order names (for example `#369113367`) included in that package, comma-separated. Multiple store orders can share one package, and the package is billed once — this is the billed amount those orders should reconcile against.
