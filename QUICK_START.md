@@ -149,6 +149,12 @@ I want:
 Get the latest 20 invoices for my account and summarize them in English.
 ```
 
+### Invoice billing breakdown
+
+```text
+Find the invoice with invoice_number MU339fa83ac02f78, then show its billing breakdown: invoice totals plus per-package billed amounts with tracking numbers and included store orders.
+```
+
 ### Latest orders
 
 ```text

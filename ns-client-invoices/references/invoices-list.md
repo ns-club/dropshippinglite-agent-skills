@@ -61,3 +61,4 @@ GET /api/ai/v1/invoice_orders
 - `total_cost` and `inventory_total_cost` are display values from the portal response.
 - `invoice_count` is the order count shown in the invoice list row.
 - If the user only needs the unpaid invoice count and amount, `ns-client-dashboard` is usually cheaper.
+- For the per-package billing breakdown of one invoice, use the invoice detail endpoint (see `invoice-detail.md`).

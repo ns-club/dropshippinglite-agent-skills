@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.0
+
+- Added invoice detail endpoint `GET /api/ai/v1/invoice_orders/:id`: invoice-level totals (`item_cost` / `shipping_cost` / `total_cost` / `marketing_discount_amount`) plus per-package billed amounts (`tracking_number`, `carrier`, `country_code`, `shipping_weight`, USD-converted costs, `store_order_names`)
+- `ns-client-invoices`: new `invoice-detail.md` reference with reconciliation guidance; skill version bumped to 0.2.0
+- `ns-client-orders`: reconciliation note now points to the invoice detail endpoint for per-package billed amounts grouped by store order
+
 ## 0.2.0
 
 - Added `ns-client-sku-mappings` skill: Shopify SKU to internal NP-code lookup (`GET /api/ai/v1/sku_mappings`)
