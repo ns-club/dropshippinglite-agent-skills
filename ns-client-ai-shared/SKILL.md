@@ -110,7 +110,7 @@ Read: `references/errors-and-retries.md`
 
 ## Domain Routing
 
-- Use `ns-client-invoices` for invoice lists and invoice filters.
+- Use `ns-client-invoices` for invoice lists, invoice filters, invoice details, and billing reconciliation.
 - Use `ns-client-products` for customer product lists and consumable-binding filters.
 - Use `ns-client-orders` for order lists and order cost fields.
 - Use `ns-client-dashboard` for quick account summary data.
